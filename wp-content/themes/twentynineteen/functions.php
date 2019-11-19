@@ -376,3 +376,38 @@ add_filter( 'update_footer', 'nr_footer_version', 9999);
 
 function nr_admin_footer_text() { }
 add_filter('admin_footer_text','nr_admin_footer_text');
+
+
+
+/**
+ *	custom post types
+ *
+ */
+
+function nr_custom_post_type_labels($single, $plural) {
+    $labels = array('name' => _x(ucfirst($plural), 'post type general name'),'singular_name' => _x(ucfirst($single), 'post type singular name'),'add_new' => _x('Add New', $single),'add_new_item' => __('Add '.$single),'edit_item' => __('Edit '.$single),'new_item' => __('New '.$single),'view_item' => __('View '.$single),'search_items' => __('Search '.$plural), 'not_found' =>  __('Nothing found'), 'not_found_in_trash' => __('Nothing found in Trash'), 'parent_item_colon' => '');
+    return $labels;
+}
+
+function nr_custom_post_types() {
+
+    // project
+    $args = array(
+        'labels' => nr_custom_post_type_labels('project','projects'),
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'exclude_from_search' => false,
+        'rewrite' => array( 'slug' => 'projects', 'with_front' => false ),
+        'capability_type' => 'page',
+        'hierarchical' => false,
+        'menu_position' => 20,
+        'menu_icon' => 'dashicons-portfolio',
+        'supports' => array('title','thumbnail'),
+        'has_archive' => false
+    );
+    register_post_type('project',$args);
+
+}
+add_action( 'init', 'nr_custom_post_types' );
